@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>注文完了 - アイサット</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/order.css}">
+</head>
+
+<body>
+	<!-- ヘッダー -->
+	<header>
+		<div class="header-container">
+			<div class="logo">
+				<a th:href="@{/}" class="logo-link">
+					<h1>アイサット</h1>
+				</a>
+			</div>
+
+			<div class="user-menu">
+				<div th:if="${currentUser == null}">
+					<a th:href="@{/login}">ログイン</a>
+					<a th:href="@{/register}">会員登録</a>
+				</div>
+
+				<div th:if="${currentUser != null}">
+					<span th:text="${currentUser.username}"></span>
+					<div class="dropdown">
+						<button class="dropbtn">メニュー ▼</button>
+						<div class="dropdown-content">
+							<a th:href="@{/order/history}">注文履歴</a>
+							<a th:href="@{/user/profile}">マイページ</a>
+							<a th:href="@{/logout}">ログアウト</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- メインコンテンツ -->
+	<main>
+		<div class="container">
+			<div class="order-success-container">
+				<div class="order-success-icon">✅</div>
+				<h1 class="order-success-title">ご注文ありがとうございます！</h1>
+				<p class="order-success-message">
+					ご注文が正常に受け付けられました。<br>
+					ご登録のメールアドレスに注文確認メールを送信いたしました。
+				</p>
+
+				<div class="order-details">
+					<p><strong>注文番号:</strong> <span
+							th:text="${order != null ? order.orderNo : 'ORD20260216123456'}">ORD20260216123456</span>
+					</p>
+					<p><strong>注文日時:</strong> <span
+							th:text="${order != null ? #temporals.format(order.createTime, 'yyyy年MM月dd日 HH:mm') : '2026年02月16日 14:30'}">2026年02月16日
+							14:30</span></p>
+					<p><strong>合計金額:</strong> <span
+							th:text="${order != null ? '¥' + #numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT') : '¥15,800'}">¥15,800</span>
+					</p>
+					<p><strong>お届け予定:</strong> <span>3〜5営業日以内に発送予定</span></p>
+				</div>
+
+				<div class="order-actions">
+					<a th:href="@{/}" class="btn-home">🏠 トップページに戻る</a>
+					<a th:href="@{/order/history}" class="btn-history">📋 注文履歴を確認</a>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- フッター -->
+	<footer>
+		<div class="footer-container">
+			<p>&copy; 2026 アイサット. All rights reserved.</p>
+		</div>
+	</footer>
+</body>
+
+</html>

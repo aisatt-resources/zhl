@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: aisatt
+  
+  # データソース設定
+  datasource:
+    url: jdbc:mysql://localhost:3306/aisato?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Tokyo
+    username: root
+    password: qwe123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  # Thymeleaf設定
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+  
+  # 静的リソース設定
+  web:
+    resources:
+      static-locations: classpath:/static/
+  
+  # ファイルアップロード設定
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+# MyBatis設定
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: aisato.ec.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
+
+# サーバー設定
+server:
+  port: 8080
+  servlet:
+    context-path: /home
+    encoding:
+      charset: UTF-8
+      force: true
+
+# ロギング設定
+logging:
+  level:
+    root: INFO
+    "aisato.ec": DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

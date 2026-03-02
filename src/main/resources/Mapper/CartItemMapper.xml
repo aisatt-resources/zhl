@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aisato.ec.mapper.CartItemMapper">
+    
+    <resultMap id="CartItemResultMap" type="aisato.ec.entity.CartItem">
+        <id property="cartItemId" column="cart_item_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="quantity" column="quantity"/>
+        <result property="selectedColor" column="selected_color"/>
+        <result property="selectedSize" column="selected_size"/>
+        <result property="addTime" column="add_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+    
+<!--     ユーザーのカートアイテムを取得 -->
+    <select id="findByUserId" resultMap="CartItemResultMap">
+        SELECT 
+            cart_item_id,
+            user_id,
+            product_id,
+            quantity,
+            selected_color,
+            selected_size,
+            add_time,
+            update_time
+        FROM cart_items
+        WHERE user_id = #{userId}
+        ORDER BY add_time DESC
+    </select>
+    
+<!--    カートアイテムを挿入 -->
+    <insert id="insert" parameterType="aisato.ec.entity.CartItem" useGeneratedKeys="true" keyProperty="cartItemId">
+        INSERT INTO cart_items (
+            user_id,
+            product_id,
+            selected_color,
+            selected_size,
+            quantity,
+            add_time,
+            update_time
+        ) VALUES (
+            #{userId},
+            #{productId},
+            #{selectedColor},
+            #{selectedSize},
+            #{quantity},
+            NOW(),
+            NOW()
+        )
+    </insert>
+    
+<!--     ユーザーID、商品ID、色、サイズでカートアイテムを検索 -->
+    <select id="findByUserIdAndProductIdAndOptions" resultMap="CartItemResultMap">
+        SELECT 
+            cart_item_id,
+            user_id,
+            product_id,
+            selected_color,
+            selected_size,
+            quantity,
+            add_time,
+            update_time
+        FROM cart_items
+        WHERE user_id = #{userId}
+          AND product_id = #{productId}
+          AND (
+            (selected_color IS NULL AND #{selectedColor} IS NULL) 
+            OR (selected_color = #{selectedColor})
+          )
+          AND (
+            (selected_size IS NULL AND #{selectedSize} IS NULL) 
+            OR (selected_size = #{selectedSize})
+          )
+        LIMIT 1
+    </select>
+    
+<!--     カートアイテムを更新 -->
+    <update id="update" parameterType="aisato.ec.entity.CartItem">
+        UPDATE cart_items SET
+            quantity = #{quantity},
+            selected_color = #{selectedColor},
+            selected_size = #{selectedSize},
+            update_time = NOW()
+        WHERE cart_item_id = #{cartItemId}
+    </update>
+    
+<!--     カートアイテムを削除 -->
+    <delete id="deleteById">
+        DELETE FROM cart_items 
+        WHERE cart_item_id = #{cartItemId}
+    </delete>
+    
+<!--     ユーザーの全カートアイテムを削除 -->
+    <delete id="deleteByUserId">
+        DELETE FROM cart_items
+        WHERE user_id = #{userId}
+    </delete>
+    
+<!--     カートアイテムを商品別に取得（色、サイズも考慮） -->
+    <select id="findByUserAndProduct" resultMap="CartItemResultMap">
+        SELECT 
+            cart_item_id,
+            user_id,
+            product_id,
+            quantity,
+            selected_color,
+            selected_size,
+            add_time,
+            update_time
+        FROM cart_items
+        WHERE user_id = #{userId}
+        AND product_id = #{productId}
+        <if test="selectedColor != null and selectedColor != ''">
+            AND selected_color = #{selectedColor}
+        </if>
+        <if test="selectedSize != null and selectedSize != ''">
+            AND selected_size = #{selectedSize}
+        </if>
+    </select>
+    
+<!--     カートアイテムを主キーで取得 -->
+    <select id="findById" resultMap="CartItemResultMap">
+        SELECT 
+            cart_item_id,
+            user_id,
+            product_id,
+            quantity,
+            selected_color,
+            selected_size,
+            add_time,
+            update_time
+        FROM cart_items
+        WHERE cart_item_id = #{cartItemId}
+    </select>
+    
+</mapper>

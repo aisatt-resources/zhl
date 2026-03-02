@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>アイサット - ショッピングサイト</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+	<!-- ヘッダー -->
+	<header>
+		<div class="header-container">
+			<div class="logo">
+				<a th:href="@{/}" class="logo-link">
+					<h1>アイサット</h1>
+				</a>
+			</div>
+
+			<!-- 検索バー -->
+			<div class="search-bar">
+				<form th:action="@{/search}" method="get">
+					<input type="text" name="keyword" placeholder="商品を検索..." th:value="${searchKeyword}">
+					<button type="submit">検索</button>
+				</form>
+			</div>
+
+			<!-- ユーザーメニュー -->
+			<div class="user-menu" th:if="${currentUser == null}">
+				<a th:href="@{/login}">ログイン</a>
+				<a th:href="@{/register}">会員登録</a>
+			</div>
+
+			<div class="user-menu" th:if="${currentUser != null}">
+				<span th:text="${currentUser.username + 'さん'}"></span>
+				<div class="dropdown">
+					<button class="dropbtn">メニュー ▼</button>
+					<div class="dropdown-content">
+						<a th:href="@{/order/history}">注文履歴</a>
+						<a th:href="@{/user/profile}">マイページ</a>
+						<a th:href="@{/logout}">ログアウト</a>
+					</div>
+				</div>
+			</div>
+			<!-- 購物車アイコン（ログイン/未ログイン問わず表示） -->
+			<div class="cart-icon">
+				<a th:href="@{/cart}">
+					<span>🛒</span>
+					<span class="cart-count" th:text="${cartItemCount != null ? cartItemCount : 0}">0</span>
+				</a>
+			</div>
+		</div>
+	</header>
+
+	<!-- メインコンテンツ -->
+	<main>
+		<div class="container">
+			<!-- カテゴリーナビゲーション -->
+			<nav class="category-nav">
+				<a th:href="@{/}">全商品</a>
+				<a th:href="@{/category(categoryId=1)}">ファッション</a>
+				<a th:href="@{/category(categoryId=2)}">電子機器</a>
+				<a th:href="@{/category(categoryId=3)}">ホーム&キッチン</a>
+				<a th:href="@{/category(categoryId=4)}">スポーツ&アウトドア</a>
+				<a th:href="@{/category(categoryId=5)}">本・CD・DVD</a>
+			</nav>
+
+			<!-- 検索結果メッセージ -->
+			<div class="search-result" th:if="${searchKeyword != null}">
+				<p>"<span th:text="${searchKeyword}"></span>" の検索結果:
+					<span th:text="${products.size()}"></span> 件
+				</p>
+			</div>
+
+			<!-- 商品一覧 -->
+			<div class="product-grid">
+				<div class="product-card" th:each="product : ${products}">
+					<a th:href="@{/product/{id}(id=${product.productId})}" class="product-link">
+						<div class="product-image">
+							<img th:src="@{${product.imageUrl}}" th:alt="${product.productName}"
+								onerror="this.src='/images/default.jpg'">
+						</div>
+						<div class="product-info">
+							<h3 class="product-name" th:text="${product.productName}"></h3>
+							<p class="product-price">¥<span
+									th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}"></span>
+							</p>
+							<p class="product-category" th:text="${product.categoryName}"></p>
+						</div>
+					</a>
+				</div>
+			</div>
+
+			<!-- 商品がない場合 -->
+			<div class="no-products" th:if="${products.isEmpty()}">
+				<p>商品が見つかりませんでした</p>
+			</div>
+		</div>
+	</main>
+
+	<!-- フッター -->
+	<footer>
+		<div class="footer-container">
+			<p>&copy; 2026 アイサット. All rights reserved.</p>
+		</div>
+	</footer>
+
+	<script th:src="@{/js/main.js}"></script>
+</body>
+
+</html>

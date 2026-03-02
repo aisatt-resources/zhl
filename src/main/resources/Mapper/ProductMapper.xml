@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aisato.ec.mapper.ProductMapper">
+    
+    <resultMap id="ProductResultMap" type="aisato.ec.entity.Product">
+        <id property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="productCode" column="product_code"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="brand" column="brand"/>
+        <result property="author" column="author"/>
+        <result property="price" column="price"/>
+        <result property="stockQuantity" column="stock_quantity"/>
+        <result property="description" column="description"/>
+        <result property="imageUrl" column="image_url"/>
+        <result property="salesStatus" column="sales_status"/>
+        <result property="weight" column="weight"/>
+        <result property="dimensions" column="dimensions"/>
+        <result property="colorOptions" column="color_options"/>
+        <result property="sizeOptions" column="size_options"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+    
+    <!-- 全商品を取得（販売中のみ） -->
+    <select id="findAll" resultMap="ProductResultMap">
+        SELECT p.*, c.category_name 
+        FROM products p
+        LEFT JOIN categories c ON p.category_id = c.category_id
+        WHERE p.sales_status = 1
+        ORDER BY p.create_time DESC
+    </select>
+    
+    <!-- カテゴリー別に商品を取得 -->
+    <select id="findByCategory" resultMap="ProductResultMap">
+        SELECT p.*, c.category_name 
+        FROM products p
+        LEFT JOIN categories c ON p.category_id = c.category_id
+        WHERE p.category_id = #{categoryId} AND p.sales_status = 1
+        ORDER BY p.create_time DESC
+    </select>
+    
+    <!-- 検索キーワードで商品を検索 -->
+    <select id="search" resultMap="ProductResultMap">
+        SELECT p.*, c.category_name 
+        FROM products p
+        LEFT JOIN categories c ON p.category_id = c.category_id
+        WHERE p.sales_status = 1
+        AND (
+            p.product_name LIKE #{keyword} 
+            OR p.description LIKE #{keyword} 
+            OR p.brand LIKE #{keyword}
+        )
+        ORDER BY p.create_time DESC
+    </select>
+    
+    <!-- 商品IDで商品を取得 -->
+    <select id="findById" resultMap="ProductResultMap">
+        SELECT p.*, c.category_name 
+        FROM products p
+        LEFT JOIN categories c ON p.category_id = c.category_id
+        WHERE p.product_id = #{productId}
+    </select>
+    
+    <!-- 複数の商品を取得 -->
+    <select id="findByIds" resultMap="ProductResultMap">
+        SELECT * FROM products WHERE product_id IN
+        <foreach collection="productIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    
+</mapper>

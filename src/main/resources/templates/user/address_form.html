@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>住所登録 - アイサット</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/user.css}">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+			<div class="logo">
+				<a th:href="@{/}" class="logo-link"><h1>アイサット</h1></a>
+			</div>
+            
+			<!-- ユーザーログインあるいは未登録際-->
+			<div class="user-menu" th:if="${currentUser == null}"> 
+				<a th:href="@{/login}">ログイン</a>
+				 <a th:href="@{/register}">会員登録</a>
+			</div>
+			<!--ユーザーログイン後メニュー項目に以下の内容がある  -->
+			<div class="user-menu" th:if="${currentUser != null}">
+				<span th:text="${currentUser.username + 'さん'}"></span>
+				<div class="dropdown">
+					<button class="dropbtn">メニュー ▼</button>
+					<div class="dropdown-content">
+					 <a th:href="@{/order/history}">注文履歴</a>
+					 <a th:href="@{/user/profile}">マイページ</a>
+					 <a th:href="@{/logout}">ログアウト</a>
+					</div>
+				</div>
+			</div> 
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-box">
+                    <h2 th:text="${address.addressId != null ? '住所編集' : '住所登録'}"></h2>
+                    
+                    <form th:action="@{/user/address/save}" method="post" class="auth-form">
+                        <input type="hidden" name="addressId" th:value="${address.addressId}">
+                        
+                        <div class="form-group">
+                            <label for="receiverName">受取人氏名 *</label>
+                            <input type="text" id="receiverName" name="receiverName" 
+                                   th:value="${address.receiverName}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">電話番号 *</label>
+                            <input type="tel" id="phone" name="phone" 
+                                   th:value="${address.phone}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="postalCode">郵便番号</label>
+                            <input type="text" id="postalCode" name="postalCode" 
+                                   th:value="${address.postalCode}"
+                                   placeholder="例: 123-4567">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="province">都道府県 *</label>
+                            <input type="text" id="province" name="province" 
+                                   th:value="${address.province}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="city">市区町村 *</label>
+                            <input type="text" id="city" name="city" 
+                                   th:value="${address.city}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="district">区/郡 *</label>
+                            <input type="text" id="district" name="district" 
+                                   th:value="${address.district}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="detailAddress">詳細住所 *</label>
+                            <textarea id="detailAddress" name="detailAddress" rows="3" 
+                                      required th:text="${address.detailAddress}"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="isDefault" value="1" 
+                                       th:checked="${address.isDefault == 1}">
+                                デフォルト住所に設定
+                            </label>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary btn-block">
+                                <span th:text="${address.addressId != null ? '更新' : '登録'}"></span>
+                            </button>
+                            <a href="javascript:history.back()" class="btn-secondary btn-block">キャンセル</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2026 アイサット. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

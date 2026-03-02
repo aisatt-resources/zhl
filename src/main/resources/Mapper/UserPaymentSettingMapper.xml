@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aisato.ec.mapper.UserPaymentSettingMapper">
+    
+    <resultMap id="UserPaymentSettingResultMap" type="aisato.ec.entity.UserPaymentSetting">
+        <id property="settingId" column="setting_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="defaultMethodId" column="default_method_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+    
+    <!-- ユーザーのデフォルト支払い方法IDを取得 -->
+    <select id="findDefaultMethodIdByUserId" resultType="java.lang.Long">
+        SELECT default_method_id 
+        FROM user_payment_settings 
+        WHERE user_id = #{userId} 
+        LIMIT 1
+    </select>
+    
+    <!-- ユーザーの支払い設定を取得 -->
+    <select id="findByUserId" resultMap="UserPaymentSettingResultMap">
+        SELECT 
+            setting_id,
+            user_id,
+            default_method_id,
+            create_time,
+            update_time
+        FROM user_payment_settings 
+        WHERE user_id = #{userId} 
+        LIMIT 1
+    </select>
+    
+    <!-- 支払い設定を挿入 -->
+    <insert id="insert" parameterType="aisato.ec.entity.UserPaymentSetting" useGeneratedKeys="true" keyProperty="settingId">
+        INSERT INTO user_payment_settings (
+            user_id,
+            default_method_id
+        ) VALUES (
+            #{userId},
+            #{defaultMethodId}
+        )
+    </insert>
+    
+    <!-- 支払い設定を更新 -->
+    <update id="update" parameterType="aisato.ec.entity.UserPaymentSetting">
+        UPDATE user_payment_settings SET
+            default_method_id = #{defaultMethodId},
+            update_time = NOW()
+        WHERE user_id = #{userId}
+    </update>
+    
+    <!-- 支払い設定を削除 -->
+    <delete id="deleteByUserId">
+        DELETE FROM user_payment_settings 
+        WHERE user_id = #{userId}
+    </delete>
+    
+</mapper>

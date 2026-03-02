@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ショッピングカート - アイサット</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/cart.css}">
+</head>
+
+<body>
+	<!-- ヘッダー -->
+	<header>
+		<div class="header-container">
+			<div class="logo">
+				<a th:href="@{/}" class="logo-link">
+					<h1>アイサット</h1>
+				</a>
+			</div>
+			<!-- ユーザーログインあるいは未登録際-->
+			<div class="user-menu" th:if="${currentUser == null}">
+				<a th:href="@{/login}">ログイン</a>
+				<a th:href="@{/register}">会員登録</a>
+			</div>
+			<!--ユーザーログイン後メニュー項目に以下の内容がある  -->
+			<div class="user-menu" th:if="${currentUser != null}">
+				<span th:text="${currentUser.username + 'さん'}"></span>
+				<div class="dropdown">
+					<button class="dropbtn">メニュー ▼</button>
+					<div class="dropdown-content">
+						<a th:href="@{/order/history}">注文履歴</a>
+						<a th:href="@{/user/profile}">マイページ</a>
+						<a th:href="@{/logout}">ログアウト</a>
+					</div>
+				</div>
+			</div>
+			<!-- 購物車アイコン（ログイン/未ログイン問わず表示） -->
+			<div class="cart-icon">
+				<a th:href="@{/cart}">
+					<span>🛒</span>
+					<span id="cart-icon-count" class="cart-count"
+						th:text="${cartItemCount != null ? cartItemCount : 0}">0</span>
+				</a>
+			</div>
+		</div>
+	</header>
+
+	<!-- メインコンテンツ -->
+	<main>
+		<div class="container">
+			<h2 style="margin-bottom: 20px; color: #333; font-size: 28px;">🛒 ショッピングカート</h2>
+			<div class="cart-container">
+				<div class="cart-items">
+					<!-- カートアイテム（未ログインユーザーはインデックスを使用） -->
+					<div class="cart-item" th:each="item, iterStat : ${cartItems}">
+						<!-- 未ログインユーザーはcartItemIdがないので、data-indexを追加 -->
+						<div th:attr="data-cart-item-id=${item.cartItemId != null ? item.cartItemId : ''}"
+							th:data-index="${iterStat.index}">
+							<div class="cart-item-image">
+								<img th:src="${item.product != null && item.product.imageUrl != null} 
+						                  ? @{${item.product.imageUrl}} 
+						                  : @{/images/default.jpg}" th:alt="${item.product != null ? item.product.productName : '商品画像'}"
+									onerror="this.style.display='none'">
+							</div>
+							<div class="cart-item-info">
+								<h3 th:text="${item.product != null ? item.product.productName : '商品名'}"></h3>
+								<p class="cart-item-price">¥<span
+										th:text="${item.product != null ? #numbers.formatDecimal(item.product.price, 0, 'COMMA', 0, 'POINT') : '0'}"></span>
+								</p>
+								<div class="cart-item-options">
+									<span th:if="${item.selectedColor != null && item.selectedColor != ''}">色: <span
+											th:text="${item.selectedColor}"></span></span>
+									<span th:if="${item.selectedSize != null && item.selectedSize != ''}">サイズ: <span
+											th:text="${item.selectedSize}"></span></span>
+								</div>
+								<div class="cart-item-quantity">
+									<label>数量:</label>
+									<input type="number" th:value="${item.quantity}" min="1"
+										th:max="${item.product != null ? item.product.stockQuantity : 1}">
+								</div>
+							</div>
+
+							<div class="cart-item-actions">
+								<button class="btn-delete">削除</button>
+							</div>
+						</div>
+					</div>
+
+					<!-- カートが空の場合 -->
+					<div class="cart-empty" th:if="${cartItems == null || cartItems.isEmpty()}">
+						<p>🛒 カートに商品がありません</p>
+						<a th:href="@{/}" class="btn-continue">🛍️ 買い物を続ける</a>
+					</div>
+					<!-- 未ログイン時の親切な案内 -->
+					<div class="login-required"
+						th:if="${currentUser == null && cartItems != null && !cartItems.isEmpty()}">
+						<!--						<p>🛒 カートに <span th:text="${cartItems.size()}"></span> 点の商品があります</p>-->
+						<p>💡 ログインすると商品を保存し、ご注文を完了できます。カート内容はログイン後も保持されます。</p>
+						<div style="margin-top: 15px;">
+							<a th:href="@{/login}" class="btn-login" style="margin-right: 10px;">ログインして続ける</a>
+							<a th:href="@{/register}" class="btn-register">会員登録</a>
+						</div>
+					</div>
+				</div>
+
+				<!-- カート概要 -->
+				<div class="cart-summary" th:if="${cartItems != null && !cartItems.isEmpty()}">
+					<h3>注文概要</h3>
+					<div class="summary-item">
+						<span>商品合計 (<span id="cart-count" th:text="${totalQuantity}"></span> 点):</span>
+						<span>¥<span id="subtotal-amount"
+								th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT')}"></span></span>
+					</div>
+					<div class="summary-item">
+						<span>送料:</span>
+						<span>¥0 (10,000円以上で送料無料)</span>
+					</div>
+					<div class="summary-total">
+						<span>合計:</span>
+						<span>¥<span id="cart-total"
+								th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT')}"></span></span>
+					</div>
+					<div class="cart-buttons">
+						<a th:href="@{/}" class="btn-secondary">🏠 買い物を続ける</a>
+						<a th:href="@{/order/checkout}" class="btn-primary"
+							th:if="${cartItems != null && !cartItems.isEmpty()}">💳 レジに進む</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- フッターの直前に追加：正確なログイン状態を生成 -->
+	<div id="cart-js-data" th:data-delete-base="@{/cart/delete-ajax/}" th:data-delete-temp="@{/cart/delete-temp/}"
+		th:data-update-base="@{/cart/update-quantity/}" th:data-update-temp="@{/cart/update-temp-quantity}"
+		th:data-is-logged-in="${currentUser != null ? 'true' : 'false'}"
+		th:data-user-id="${currentUser != null ? currentUser.userId : ''}"
+		th:data-is-empty="${cartItems == null || cartItems.isEmpty()}" style="display:none;">
+	</div>
+
+	<script th:src="@{/js/cart.js}"></script>
+
+	<!-- フッター -->
+	<footer>
+		<div class="footer-container">
+			<p>&copy; 2026 アイサット. All rights reserved.</p>
+		</div>
+	</footer>
+
+	<!-- 隠しデータ要素：ThymeleafでURLを安全に生成 -->
+	<div id="cart-js-data" th:data-update-base="@{/cart/update-quantity/}" th:data-delete-base="@{/cart/delete-ajax/}"
+		style="display:none;">
+	</div>
+
+</body>
+
+</html>

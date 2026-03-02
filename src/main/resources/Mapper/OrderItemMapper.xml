@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aisato.ec.mapper.OrderItemMapper">
+    
+    <!-- ResultMap定義 -->
+    <resultMap id="OrderItemResultMap" type="aisato.ec.entity.OrderItem">
+        <id property="orderItemId" column="order_item_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="productPrice" column="product_price"/>
+        <result property="quantity" column="quantity"/>
+        <result property="selectedColor" column="selected_color"/>
+        <result property="selectedSize" column="selected_size"/>
+        <result property="subtotalAmount" column="subtotal_amount"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+    
+    <!-- ResultMap（商品情報含む） -->
+    <resultMap id="OrderItemWithProductResultMap" type="aisato.ec.entity.OrderItem" extends="OrderItemResultMap">
+        <association property="product" javaType="aisato.ec.entity.Product">
+            <id property="productId" column="p_product_id"/>
+            <result property="productName" column="p_product_name"/>
+            <result property="productCode" column="p_product_code"/>
+            <result property="price" column="p_price"/>
+            <result property="imageUrl" column="p_image_url"/>
+            <result property="description" column="p_description"/>
+        </association>
+    </resultMap>
+    
+    <!-- 指定された注文の注文件を取得 -->
+    <select id="findByOrderId" resultMap="OrderItemResultMap">
+        SELECT 
+            order_item_id,
+            order_id,
+            product_id,
+            product_name,
+            product_price,
+            quantity,
+            selected_color,
+            selected_size,
+            subtotal_amount,
+            create_time
+        FROM order_items
+        WHERE order_id = #{orderId}
+        ORDER BY order_item_id ASC
+    </select>
+    
+    <!-- 指定された注文の注文件を取得（商品情報含む） -->
+    <select id="findByOrderIdWithProduct" resultMap="OrderItemWithProductResultMap">
+        SELECT 
+            oi.order_item_id,
+            oi.order_id,
+            oi.product_id,
+            oi.product_name,
+            oi.product_price,
+            oi.quantity,
+            oi.selected_color,
+            oi.selected_size,
+            oi.subtotal_amount,
+            oi.create_time,
+            p.product_id AS p_product_id,
+            p.product_name AS p_product_name,
+            p.product_code AS p_product_code,
+            p.price AS p_price,
+            p.image_url AS p_image_url,
+            p.description AS p_description
+        FROM order_items oi
+        LEFT JOIN products p ON oi.product_id = p.product_id
+        WHERE oi.order_id = #{orderId}
+        ORDER BY oi.order_item_id ASC
+    </select>
+    
+    <!-- 複数の注文件を登録（バッチインサート） -->
+    <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="orderItemId">
+        INSERT INTO order_items (
+            order_id,
+            product_id,
+            product_name,
+            product_price,
+            quantity,
+            selected_color,
+            selected_size,
+            subtotal_amount
+        ) VALUES
+        <foreach collection="orderItems" item="item" separator=",">
+            (
+                #{item.orderId},
+                #{item.productId},
+                #{item.productName},
+                #{item.productPrice},
+                #{item.quantity},
+                #{item.selectedColor},
+                #{item.selectedSize},
+                #{item.subtotalAmount}
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 指定された注文の注文件を削除 -->
+    <delete id="deleteByOrderId">
+        DELETE FROM order_items
+        WHERE order_id = #{orderId}
+    </delete>
+    
+</mapper>

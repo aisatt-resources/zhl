@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title th:text="${product != null ? product.productName + ' - アイサット' : '商品詳細 - アイサット'}"></title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/product-detail.css}">
+</head>
+
+<body>
+	<!-- ヘッダー -->
+	<header>
+		<div class="header-container">
+			<div class="logo">
+				<a th:href="@{/}" class="logo-link">
+					<h1>アイサット</h1>
+				</a>
+			</div>
+
+			<div class="user-menu" th:if="${currentUser == null}">
+				<a th:href="@{/login}">ログイン</a>
+				<a th:href="@{/register}">会員登録</a>
+			</div>
+
+			<div class="user-menu" th:if="${currentUser != null}">
+				<span th:text="${currentUser.username + 'さん'}"></span>
+				<div class="dropdown">
+					<button class="dropbtn">メニュー ▼</button>
+					<div class="dropdown-content">
+						<a th:href="@{/order/history}">注文履歴</a>
+						<a th:href="@{/user/profile}">マイページ</a>
+						<a th:href="@{/logout}">ログアウト</a>
+					</div>
+				</div>
+			</div>
+			<!-- 購物車アイコン（ログイン/未ログイン問わず表示） -->
+			<div class="cart-icon">
+				<a th:href="@{/cart}">
+					<span>🛒</span>
+					<span class="cart-count" th:text="${cartItemCount != null ? cartItemCount : 0}">0</span>
+				</a>
+			</div>
+		</div>
+	</header>
+
+	<!-- メインコンテンツ -->
+	<main>
+		<div class="container">
+			<div class="product-detail">
+				<div class="product-detail-left">
+					<div class="product-main-image">
+						<!--	絶対パスを使用する-->
+						<img th:src="@{|${product != null && product.imageUrl != null ? product.imageUrl : '/images/default.jpg'}|}"
+							th:alt="${product != null ? product.productName : '商品画像'}"
+							style="width: 100%; height: 100%; object-fit: cover;">
+					</div>
+				</div>
+				<div class="product-detail-right">
+					<h1 class="product-title" th:text="${product != null ? product.productName : '商品名'}"></h1>
+					<div class="product-price-section">
+						<span class="price-label">価格:</span>
+						<span class="product-price">¥<span
+								th:text="${product != null ? #numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') : '0'}"></span></span>
+					</div>
+					<!-- 色選択（常に要素を生成、JavaScriptで表示制御） -->
+					<div class="option-group">
+						<label>色:</label>
+						<div class="color-options"
+							th:attr="data-options=${product != null && product.colorOptions != null ? product.colorOptions : '[]'}">
+							<!-- JavaScriptがここにオプションを動的に挿入 -->
+						</div>
+					</div>
+					<!-- サイズ選択（常に要素を生成、JavaScriptで表示制御） -->
+					<div class="option-group">
+						<label>サイズ:</label>
+						<div class="size-options"
+							th:attr="data-options=${product != null && product.sizeOptions != null ? product.sizeOptions : '[]'}">
+							<!-- JavaScriptがここにオプションを動的に挿入 -->
+						</div>
+					</div>
+
+					<div class="product-stock"
+						th:if="${product != null && product.stockQuantity != null && product.stockQuantity > 0}">
+						<span class="stock-label">在庫:</span>
+						<span class="stock-quantity" th:text="${product.stockQuantity} + ' 点'"></span>
+					</div>
+
+					<div class="product-stock stock-warning"
+						th:if="${product != null && (product.stockQuantity == null || product.stockQuantity <= 0)}">
+						<span class=" ">在庫:</span>
+						<span class="stock-quantity">在庫切れ</span>
+					</div>
+					<div th:if="${product != null}">
+						<form id="addToCartForm" method="post" th:action="@{/cart/add}">
+							<input type="hidden" name="productId" th:value="${product.productId}">
+							<input type="hidden" name="selectedColor" id="selectedColorInput">
+							<input type="hidden" name="selectedSize" id="selectedSizeInput">
+							<div class="option-group">
+								<label>数量:</label>
+								<input type="number" name="quantity" value="1" min="1"
+									th:max="${product.stockQuantity != null ? product.stockQuantity : 1}">
+							</div>
+							<button type="submit" class="btn-add-to-cart"
+								th:disabled="${product.stockQuantity == null || product.stockQuantity <= 0}">
+								カートに入れる
+							</button>
+						</form>
+					</div>
+					<div class="login-required" th:if="${currentUser == null}">
+						<p>商品をカートに入れるにはログインが必要です</p>
+						<a th:href="@{/login}" class="btn-login">ログインする</a>
+						<a th:href="@{/register}" class="btn-register">会員登録</a>
+					</div>
+					<div class="product-description" th:if="${product != null}">
+						<h3>商品説明</h3>
+						<p th:text="${product.description != null ? product.description : '商品説明はありません'}"></p>
+					</div>
+					<div class="product-specs"
+						th:if="${product != null and (product.author != null or product.brand != null or product.weight != null or product.dimensions != null)}">
+						<h3>仕様</h3>
+						<ul>
+							<li th:if="${product.brand != null}">
+								ブランド: <span th:text="${product.brand}"></span>
+							</li>
+							<li th:if="${product.author != null}">
+								著者: <span th:text="${product.author}"></span>
+							</li>
+							<li th:if="${product.weight != null}">
+								重さ: <span th:text="${product.weight} + ' g'"></span>
+							</li>
+							<li th:if="${product.dimensions != null}">
+								寸法: <span th:text="${product.dimensions}"></span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- フッター -->
+	<footer>
+		<div class="footer-container">
+			<p>&copy; 2026 アイサット. All rights reserved.</p>
+		</div>
+	</footer>
+
+	<!-- 外部JavaScriptファイルを読み込み -->
+	<script th:src="@{/js/product.js}"></script>
+</body>
+
+</html>

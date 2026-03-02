@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aisato.ec.mapper.OrderMapper">
+    
+    <resultMap id="OrderResultMap" type="aisato.ec.entity.Order">
+        <id property="orderId" column="order_id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="userId" column="user_id"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="totalAmount" column="total_amount"/>
+        <result property="shippingFee" column="shipping_fee"/>
+        <result property="receiverName" column="receiver_name"/>
+        <result property="receiverPhone" column="receiver_phone"/>
+        <result property="receiverProvince" column="receiver_province"/>
+        <result property="receiverCity" column="receiver_city"/>
+        <result property="receiverDistrict" column="receiver_district"/>
+        <result property="receiverDetailAddress" column="receiver_detail_address"/>
+        <result property="receiverPostalCode" column="receiver_postal_code"/>
+        <result property="paymentMethodId" column="payment_method_id"/>
+        <result property="paymentStatus" column="payment_status"/>
+        <result property="paymentTransactionId" column="payment_transaction_id"/>
+        <result property="remarks" column="remarks"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+    
+    <!-- ユーザーの注文履歴を取得 -->
+    <select id="findByUserId" resultMap="OrderResultMap">
+        SELECT 
+            order_id,
+            order_no,
+            user_id,
+            order_status,
+            total_amount,
+            shipping_fee,
+            receiver_name,
+            receiver_phone,
+            receiver_province,
+            receiver_city,
+            receiver_district,
+            receiver_detail_address,
+            receiver_postal_code,
+            payment_method_id,
+            payment_status,
+            payment_transaction_id,
+            remarks,
+            create_time,
+            update_time
+        FROM orders
+        WHERE user_id = #{userId}
+        ORDER BY create_time DESC
+    </select>
+    
+    <!-- 注文詳細を取得 -->
+    <select id="findById" resultMap="OrderResultMap">
+        SELECT 
+            order_id,
+            order_no,
+            user_id,
+            order_status,
+            total_amount,
+            shipping_fee,
+            receiver_name,
+            receiver_phone,
+            receiver_province,
+            receiver_city,
+            receiver_district,
+            receiver_detail_address,
+            receiver_postal_code,
+            payment_method_id,
+            payment_status,
+            payment_transaction_id,
+            remarks,
+            create_time,
+            update_time
+        FROM orders
+        WHERE order_id = #{orderId}
+    </select>
+    
+    <!-- オーダーを登録 -->
+    <insert id="insert" parameterType="aisato.ec.entity.Order" useGeneratedKeys="true" keyProperty="orderId">
+        INSERT INTO orders (
+            order_no,
+            user_id,
+            order_status,
+            total_amount,
+            shipping_fee,
+            receiver_name,
+            receiver_phone,
+            receiver_province,
+            receiver_city,
+            receiver_district,
+            receiver_detail_address,
+            receiver_postal_code,
+            payment_method_id,
+            payment_status,
+            payment_transaction_id,
+            remarks
+        ) VALUES (
+            #{orderNo},
+            #{userId},
+            #{orderStatus},
+            #{totalAmount},
+            #{shippingFee},
+            #{receiverName},
+            #{receiverPhone},
+            #{receiverProvince},
+            #{receiverCity},
+            #{receiverDistrict},
+            #{receiverDetailAddress},
+            #{receiverPostalCode},
+            #{paymentMethodId},
+            #{paymentStatus},
+            #{paymentTransactionId},
+            #{remarks}
+        )
+    </insert>
+    
+    <!-- オーダーステータスを更新 -->
+    <update id="updateStatus" parameterType="aisato.ec.entity.Order">
+        UPDATE orders SET
+            order_status = #{orderStatus},
+            payment_status = #{paymentStatus},
+            payment_transaction_id = #{paymentTransactionId},
+            update_time = NOW()
+        WHERE order_id = #{orderId}
+    </update>
+    
+</mapper>

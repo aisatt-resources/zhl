@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>レジ - アイサット</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/order.css}">
+</head>
+
+<body>
+	<header>
+		<div class="header-container">
+			<div class="logo">
+				<a th:href="@{/}" class="logo-link">
+					<h1>アイサット</h1>
+				</a>
+			</div>
+			<!-- ユーザーログインあるいは未登録際-->
+			<div class="user-menu" th:if="${currentUser == null}">
+				<a th:href="@{/login}">ログイン</a>
+				<a th:href="@{/register}">会員登録</a>
+			</div>
+			<!--ユーザーログイン後メニュー項目に以下の内容がある  -->
+			<div class="user-menu" th:if="${currentUser != null}">
+				<span th:text="${currentUser.username + 'さん'}"></span>
+				<div class="dropdown">
+					<button class="dropbtn">メニュー ▼</button>
+					<div class="dropdown-content">
+						<a th:href="@{/order/history}">注文履歴</a>
+						<a th:href="@{/user/profile}">マイページ</a>
+						<a th:href="@{/logout}">ログアウト</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<main>
+		<div class="container">
+			<h2>💳 ご注文内容の確認</h2>
+
+			<div class="checkout-container">
+				<div>
+					<!-- お届け先情報 -->
+					<div class="checkout-section">
+						<h3>📦 お届け先情報</h3>
+						<div class="address-selection">
+							<div class="address-card" th:each="address : ${addresses}" th:data-id="${address.addressId}"
+								th:classappend="${defaultAddress != null and address.addressId == defaultAddress.addressId} ? 'selected' : ''">
+								<div class="address-body">
+									<p><strong th:text="${address.receiverName}"></strong></p>
+									<p th:text="${address.phone}"></p>
+									<p th:text="${address.postalCode}"></p>
+									<p th:text="${address.getFullAddress()}"></p>
+								</div>
+							</div>
+							<a th:href="@{/user/address/add}"
+								style="display:inline-block;margin-top:10px;color:#3498db;text-decoration:none;font-weight:bold;">＋
+								新しい住所を追加</a>
+						</div>
+						<input type="hidden" id="selectedAddressId"
+							th:value="${defaultAddress?.addressId ?: (addresses?.size() > 0 ? addresses[0].addressId : '')}">
+					</div>
+
+					<!-- 支払い方法 -->
+					<div class="checkout-section">
+						<h3>💳 支払い方法</h3>
+						<div class="payment-methods">
+							<div class="payment-method" th:each="method : ${paymentMethods}"
+								th:data-id="${method.methodId}"
+								th:classappend="${method.methodId == defaultPaymentMethodId} ? 'selected' : ''">
+								<input type="radio" name="paymentMethod" th:id="${'payment-' + method.methodId}"
+									th:value="${method.methodId}"
+									th:checked="${method.methodId == defaultPaymentMethodId}">
+								<label th:for="${'payment-' + method.methodId}" th:text="${method.methodName}"></label>
+								<p th:text="${method.description}"
+									style="margin-top:5px;font-size:13px;color:#666;margin-left:35px;"></p>
+							</div>
+						</div>
+						<input type="hidden" id="selectedPaymentMethodId"
+							th:value="${defaultPaymentMethodId ?: (paymentMethods?.size() > 0 ? paymentMethods[0].methodId : '')}">
+					</div>
+
+					<button class="btn-place-order" id="placeOrderBtn">✅ 注文を確定する</button>
+				</div>
+
+				<!-- レジー概要 -->
+				<div class="order-summary">
+					<h3>注文概要</h3>
+					<div class="order-item" th:each="item : ${cartItems}">
+						<div class="order-item-image">
+							<img th:if="${item.product != null and item.product.imageUrl != null}"
+								th:src="@{${item.product.imageUrl}}" th:alt="${item.product.productName}">
+
+							<img th:if="${item.product == null or item.product.imageUrl == null}"
+								th:src="@{/images/default.jpg}" alt="商品画像">
+						</div>
+						<div class="order-item-info">
+							<h4 th:text="${item.product?.productName ?: '商品名'}"></h4>
+							<div class="order-item-options">
+								<span th:if="${item.selectedColor}">色: <span
+										th:text="${item.selectedColor}"></span></span>
+								<span th:if="${item.selectedSize}">サイズ: <span
+										th:text="${item.selectedSize}"></span></span>
+							</div>
+							<div class="order-item-quantity">
+								<span th:text="${item.quantity} + ' 点'"></span>
+								× ¥<span
+									th:text="${#numbers.formatDecimal(item.product?.price ?: 0, 0, 'COMMA', 0, 'POINT')}"></span>
+							</div>
+						</div>
+					</div>
+					<!-- 商品合計行 -->
+					<div class="summary-item">
+						<span>商品合計 (<span th:text="${totalQuantity}"></span> 点):</span>
+						<div class="summary-amount">
+							<span class="price-currency">¥</span>
+							<span class="price-value"
+								th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT')}"></span>
+						</div>
+					</div>
+					<!-- 送料行 -->
+					<div class="summary-item">
+						<span>送料:</span>
+						<div class="summary-amount">
+							<span class="price-currency">¥</span>
+							<span class="price-value">0</span>
+						</div>
+					</div>
+					<!-- 合計行 -->
+					<div class="summary-total">
+						<span>合計:</span>
+						<div class="summary-amount">
+							<span class="price-currency">¥</span>
+							<span class="price-value"
+								th:text="${#numbers.formatDecimal(totalAmount, 0, 'COMMA', 0, 'POINT')}"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<!-- 結账ページの最後に追加（フッターの直前） -->
+	<form id="orderForm" th:action="@{/order/confirm}" method="post" style="display:none;">
+		<!-- お届け先情報 -->
+		<input type="hidden" name="receiverName" id="formReceiverName">
+		<input type="hidden" name="receiverPhone" id="formReceiverPhone">
+		<input type="hidden" name="receiverProvince" id="formReceiverProvince">
+		<input type="hidden" name="receiverCity" id="formReceiverCity">
+		<input type="hidden" name="receiverDistrict" id="formReceiverDistrict">
+		<input type="hidden" name="receiverDetailAddress" id="formReceiverDetailAddress">
+		<input type="hidden" name="receiverPostalCode" id="formReceiverPostalCode">
+
+		<!-- 支払い方法 -->
+		<input type="hidden" name="paymentMethodId" id="formPaymentMethodId">
+
+		<!-- 備考 -->
+		<input type="hidden" name="remarks" id="formRemarks">
+	</form>
+
+	<!-- フッター -->
+	<footer>
+		<div class="footer-container">
+			<p>&copy; 2026 アイサット. All rights reserved.</p>
+		</div>
+	</footer>
+
+	<!-- 隠しデータ要素 -->
+	<div id="app-data" th:data-success-url="@{/order/success}" style="display:none;"></div>
+
+	<!-- 外部JavaScript（Thymeleaf形式） -->
+	<script th:src="@{/js/checkout.js}"></script>
+</body>
+
+</html>

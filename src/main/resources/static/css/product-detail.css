@@ -1,0 +1,289 @@
+/* ========================================
+   プロダクト詳細ページ共通スタイル
+   ======================================== */
+
+/* メインコンテナ */
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+/* 商品詳細レイアウト */
+.product-detail {
+	display: flex;
+	gap: 40px;
+	margin-top: 30px;
+	background-color: #fff;
+	padding: 30px;
+	border-radius: 8px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.product-detail-left {
+	flex: 1;
+}
+
+.product-detail-right {
+	flex: 1;
+}
+
+/* 画像 */
+.product-main-image {
+	width: 100%;
+	height: 600px;
+	border-radius: 8px;
+	overflow: hidden;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-main-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* タイトル */
+.product-title {
+	font-size: 28px;
+	margin-bottom: 20px;
+	color: #333;
+	font-weight: bold;
+}
+
+/* 価格 */
+.product-price-section {
+	margin-bottom: 15px;
+}
+
+.price-label {
+	font-size: 16px;
+	color: #666;
+	margin-right: 10px;
+	font-weight: bold;
+}
+
+.product-price {
+	font-size: 32px;
+	font-weight: bold;
+	color: #e74c3c;
+}
+
+/* 在庫 */
+.product-stock {
+	margin-bottom: 20px;
+	padding: 10px;
+	background-color: #f0f9ff;
+	border-radius: 4px;
+	border-left: 4px solid #3498db;
+}
+
+.stock-warning {
+	background-color: #fff3cd;
+	border-left-color: #f39c12;
+}
+
+.stock-label {
+	font-weight: bold;
+	margin-right: 10px;
+	color: #333;
+}
+
+.stock-quantity {
+	color: #27ae60;
+	font-weight: bold;
+}
+
+.stock-warning .stock-quantity {
+	color: #e74c3c;
+}
+
+/* 色・サイズオプションのスタイル */
+.color-options,
+.size-options {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 8px;
+}
+
+.color-option,
+.size-option {
+	padding: 8px 12px;
+	background-color: #f8f9fa;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.3s;
+}
+
+.color-option:hover,
+.size-option:hover {
+	background-color: #e9ecef;
+	border-color: #007bff;
+}
+
+.color-option.selected,
+.size-option.selected {
+	background-color: #007bff;
+	color: white;
+	border-color: #007bff;
+}
+
+.option-group label {
+	font-weight: bold;
+	margin-bottom: 8px;
+	display: block;
+	color: #333;
+}
+
+/* エラーメッセージのスタイル */
+.option-error {
+	background-color: #f8d7da;
+	color: #721c24;
+	padding: 8px 12px;
+	border-radius: 4px;
+	font-size: 14px;
+	margin-top: 8px;
+}
+
+/* オプションがない場合の表示 */
+.option-none {
+	color: #6c757d;
+	font-style: italic;
+	padding: 8px 0;
+}
+
+/* ボタン */
+.btn-add-to-cart {
+	width: 100%;
+	padding: 12px;
+	background-color: #e74c3c;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	margin-top: 10px;
+	transition: background-color 0.3s;
+}
+
+.btn-add-to-cart:hover {
+	background-color: #c0392b;
+}
+
+.btn-add-to-cart:disabled {
+	background-color: #95a5a6;
+	cursor: not-allowed;
+}
+
+/* ログイン必須メッセージ */
+.login-required {
+	background-color: #e8f4f8;
+	border-left: 4px solid #3498db;
+	padding: 15px;
+	margin: 20px 0;
+	border-radius: 4px;
+}
+
+.login-required p {
+	margin-bottom: 10px;
+	color: #2c3e50;
+	font-size: 14px;
+}
+
+.btn-login,
+.btn-register {
+	display: inline-block;
+	background-color: #3498db;
+	color: white;
+	text-decoration: none;
+	padding: 8px 15px;
+	border-radius: 4px;
+	margin-top: 10px;
+	font-weight: bold;
+	transition: background-color 0.3s;
+	font-size: 14px;
+}
+
+.btn-register {
+	background-color: #27ae60;
+	margin-left: 10px;
+}
+
+.btn-login:hover {
+	background-color: #2980b9;
+}
+
+.btn-register:hover {
+	background-color: #229954;
+}
+
+/* 説明と仕様 */
+.product-description,
+.product-specs {
+	margin-top: 30px;
+	padding-top: 20px;
+	border-top: 1px solid #eee;
+}
+
+.product-description h3,
+.product-specs h3 {
+	font-size: 20px;
+	margin-bottom: 15px;
+	color: #333;
+	font-weight: bold;
+}
+
+.product-description p {
+	line-height: 1.8;
+	color: #666;
+	font-size: 14px;
+}
+
+.product-specs ul {
+	list-style: none;
+	padding-left: 0;
+}
+
+.product-specs li {
+	padding: 8px 0;
+	border-bottom: 1px solid #eee;
+	color: #333;
+	font-size: 14px;
+}
+
+.product-specs li:last-child {
+	border-bottom: none;
+}
+
+.product-specs li span {
+	color: #e74c3c;
+	font-weight: bold;
+}
+
+/* フッター */
+.footer-container {
+	background-color: #333;
+	color: white;
+	padding: 20px 0;
+	text-align: center;
+	margin-top: 50px;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+	.product-detail {
+		flex-direction: column;
+	}
+
+	.header-container {
+		flex-direction: column;
+		gap: 15px;
+	}
+
+	.product-main-image {
+		height: 300px;
+	}
+}

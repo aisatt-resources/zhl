@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>マイページ - アイサット</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/user.css}">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+			<div class="logo">
+			      <a th:href="@{/}" class="logo-link"><h1>アイサット</h1></a>
+			</div>
+            
+			<!-- ユーザーログインあるいは未登録際-->
+			<div class="user-menu" th:if="${currentUser == null}"> 
+				<a th:href="@{/login}">ログイン</a>
+				 <a th:href="@{/register}">会員登録</a>
+			</div>
+			<!--ユーザーログイン後メニュー項目に以下の内容がある  -->
+			<div class="user-menu" th:if="${currentUser != null}">
+				<span th:text="${currentUser.username + 'さん'}"></span>
+				<div class="dropdown">
+					<button class="dropbtn">メニュー ▼</button>
+					<div class="dropdown-content">
+					 <a th:href="@{/order/history}">注文履歴</a>
+					 <a th:href="@{/user/profile}">マイページ</a>
+					 <a th:href="@{/logout}">ログアウト</a>
+					</div>
+				</div>
+			</div> 
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <div class="profile-container">
+                <div class="profile-sidebar">
+                    <div class="profile-avatar">
+                        <div class="avatar-icon">👤</div>
+                        <h3 th:text="${user.username}"></h3>
+                    </div>
+                    
+                    <nav class="profile-nav">
+                        <a th:href="@{/user/profile}" class="active">個人情報</a>
+                        <a th:href="@{/order/history}">注文履歴</a>
+                        <a th:href="@{/cart}">ショッピングカート</a>
+                    </nav>
+                </div>
+                
+                <div class="profile-content">
+                    <div class="profile-section">
+                        <h3>個人情報</h3>
+                        
+                        <div class="error-message" th:if="${param.error}" 
+                             th:text="${param.error[0]}"></div>
+                        
+                        <form id="profileForm" class="profile-form">
+                            <input type="hidden" name="userId" th:value="${user.userId}">
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>ユーザー名</label>
+                                    <p class="form-static" th:text="${user.username}"></p>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>メールアドレス *</label>
+                                    <input type="email" name="email" 
+                                           th:value="${user.email}" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>本名</label>
+                                    <input type="text" name="realName" 
+                                           th:value="${user.realName}">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>電話番号</label>
+                                    <input type="tel" name="phone" 
+                                           th:value="${user.phone}">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>性別</label>
+                                    <select name="gender">
+                                        <option value="">選択してください</option>
+                                        <option value="0" th:selected="${user.gender == 0}">女性</option>
+                                        <option value="1" th:selected="${user.gender == 1}">男性</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>生年月日</label>
+                                    <input type="date" name="birthDate" 
+                                           th:value="${user.birthDate}">
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn-primary" onclick="updateProfile()">保存</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="profile-section">
+                        <h3>配送先住所
+                            <a th:href="@{/user/address/add}" class="btn-add">＋ 追加</a>
+                        </h3>
+                        
+                        <div class="addresses-container">
+                            <div class="address-card" th:each="address : ${addresses}">
+                                <div class="address-header">
+                                    <span class="address-tag" th:if="${address.isDefault == 1}">デフォルト</span>
+                                    <div class="address-actions">
+                                        <a th:href="@{/user/address/edit/{id}(id=${address.addressId})}" 
+                                           class="btn-edit">編集</a>
+                                        <a href="javascript:void(0)" 
+                                           th:onclick="'deleteAddress(' + ${address.addressId} + ')'">削除</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="address-body">
+                                    <p><strong th:text="${address.receiverName}"></strong></p>
+                                    <p th:text="${address.phone}"></p>
+                                    <p th:text="${address.postalCode}"></p>
+                                    <p th:text="${address.getFullAddress()}"></p>
+                                </div>
+                                
+                                <div class="address-footer" th:if="${address.isDefault != 1}">
+                                    <button type="button" class="btn-set-default"
+                                            th:onclick="'setDefaultAddress(' + ${address.addressId} + ')'">
+                                        デフォルトに設定
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="no-addresses" th:if="${addresses.isEmpty()}">
+                                <p>登録された住所がありません</p>
+                                <a th:href="@{/user/address/add}" class="btn-add">住所を追加</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2026 アイサット. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // 個人情報更新
+        function updateProfile() {
+            const form = document.getElementById('profileForm');
+            const formData = new FormData(form);
+            
+            fetch('/home/user/profile/update', {
+                method: 'POST',
+                body: new URLSearchParams(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert('エラー: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('更新に失敗しました');
+            });
+        }
+        
+        // 住所削除
+        function deleteAddress(addressId) {
+            if (!confirm('この住所を削除しますか？')) {
+                return;
+            }
+            
+            window.location.href = '/home/user/address/delete/' + addressId;
+        }
+        
+        // デフォルト住所設定
+        function setDefaultAddress(addressId) {
+            fetch('/home/user/address/set-default/' + addressId, {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert('エラー: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('設定に失敗しました');
+            });
+        }
+    </script>
+</body>
+</html>

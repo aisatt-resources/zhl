@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="aisato.ec.mapper.PaymentMethodMapper">
+    
+    <!-- ResultMap定義：データベースカラムとJavaプロパティのマッピング -->
+    <resultMap id="PaymentMethodResultMap" type="aisato.ec.entity.PaymentMethod">
+        <id property="methodId" column="method_id"/>
+        <result property="methodName" column="method_name"/>
+        <result property="methodCode" column="method_code"/>
+        <result property="description" column="description"/>
+        <result property="isActive" column="is_active"/>
+        <result property="sortOrder" column="sort_order"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+    
+    <!-- 有効な支払い方法をすべて取得（表示順にソート） -->
+    <select id="findAllActive" resultMap="PaymentMethodResultMap">
+        SELECT 
+            method_id,
+            method_name,
+            method_code,
+            description,
+            is_active,
+            sort_order,
+            create_time
+        FROM payment_methods 
+        WHERE is_active = 1 
+        ORDER BY sort_order ASC
+    </select>
+    
+</mapper>

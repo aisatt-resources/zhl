@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>注文履歴 - アイサット</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/order.css}">
+</head>
+
+<body>
+	<!-- ヘッダー -->
+	<header>
+		<div class="header-container">
+			<div class="logo">
+				<a th:href="@{/}" class="logo-link">
+					<h1>アイサット</h1>
+				</a>
+			</div>
+
+			<div class="user-menu">
+				<div th:if="${currentUser == null}">
+					<a th:href="@{/login}">ログイン</a>
+					<a th:href="@{/register}">会員登録</a>
+				</div>
+
+				<div th:if="${currentUser != null}">
+					<span th:text="${currentUser.username}"></span>
+					<div class="dropdown">
+						<button class="dropbtn">メニュー ▼</button>
+						<div class="dropdown-content">
+							<a th:href="@{/order/history}">注文履歴</a>
+							<a th:href="@{/user/profile}">マイページ</a>
+							<a th:href="@{/logout}">ログアウト</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- メインコンテンツ -->
+	<main>
+		<div class="container">
+			<div class="order-history-container">
+				<h2>📋 注文履歴</h2>
+
+				<div class="no-orders" th:if="${orders == null || orders.isEmpty()}">
+					<p>まだ注文履歴がありません</p>
+					<a th:href="@{/}"
+						style="display: inline-block; margin-top: 15px; padding: 10px 25px; background-color: #e74c3c; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">🛍️
+						買い物を始める</a>
+				</div>
+
+				<div class="order-card" th:each="order : ${orders}">
+					<div class="order-header">
+						<div>
+							<div class="order-number">注文番号: <span th:text="${order.orderNo}"></span></div>
+							<div class="order-date"
+								th:text="${#temporals.format(order.createTime, 'yyyy年MM月dd日 HH:mm')}"></div>
+						</div>
+						<span class="order-status" th:classappend="${'status-' + order.orderStatus}" th:text="${order.orderStatus == 10 ? '注文中' : 
+                                       order.orderStatus == 20 ? '支払確認' : 
+                                       order.orderStatus == 30 ? '発送準備' : 
+                                       order.orderStatus == 40 ? '発送済み' : 
+                                       order.orderStatus == 50 ? '完了' : 'キャンセル'}">
+						</span>
+					</div>
+
+					<div class="order-items">
+						<div class="order-item-small" th:each="item : ${order.orderItems}">
+							<div class="order-item-small-image">
+
+								<img th:if="${item.product != null and item.product.imageUrl != null}"
+									th:src="@{${item.product.imageUrl}}" th:alt="${item.product.productName}">
+
+								<img th:if="${item.product == null or item.product.imageUrl == null}"
+									th:src="@{/images/default.jpg}" alt="商品画像">
+							</div>
+							<div class="order-item-small-info">
+								<h5 th:text="${item.productName}"></h5>
+								<div class="order-item-small-options">
+									<span th:if="${item.selectedColor != null && item.selectedColor != ''}">色: <span
+											th:text="${item.selectedColor}"></span></span>
+									<span th:if="${item.selectedSize != null && item.selectedSize != ''}">サイズ: <span
+											th:text="${item.selectedSize}"></span></span>
+									<span th:text="${item.quantity} + ' 点'"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="order-total">
+						合計: ¥<span
+							th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')}"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- フッター -->
+	<footer>
+		<div class="footer-container">
+			<p>&copy; 2026 アイサット. All rights reserved.</p>
+		</div>
+	</footer>
+</body>
+
+</html>

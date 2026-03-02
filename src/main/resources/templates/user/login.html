@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン - アイサット</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/user.css}">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <a href="/" class="logo-link">
+                    <h1>アイサット</h1>
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-box">
+                    <h2>ログイン</h2>
+                    
+                    <div class="error-message" th:if="${error}" th:text="${error}"></div>
+                    
+                    <form th:action="@{/login}" method="post" class="auth-form">
+                        <div class="form-group">
+                            <label for="username">ユーザー名またはメールアドレス</label>
+                            <input type="text" id="username" name="username" 
+                                   th:value="${loginRequest.username}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">パスワード</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        
+                        <div class="form-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="remember"> 次回から自動ログイン
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary btn-block">ログイン</button>
+                    </form>
+                    
+                    <div class="auth-footer">
+                        <p>アカウントをお持ちでないですか？ 
+                           <a th:href="@{/register}" class="link">会員登録</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2026 アイサット. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
