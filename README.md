@@ -37,89 +37,9 @@ Java バージョン: 17
 
 ## 3. プロジェクト構造
 プロジェクトは典型的な Maven および Spring Boot の構造を採用しており、主なディレクトリとファイルの説明は以下の通りです：
+<img width="993" height="607" alt="image" src="https://github.com/user-attachments/assets/b40f86a3-142a-4a4d-a046-a2a73b0f1246" />
 
-aisato-ec/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/aisato/ec/
-│   │   │       ├── AisatoEcApplication.java          # メインアプリケーション
-│   │   │       ├── controller/                       # コントローラー
-│   │   │       │   ├── CartController.java
-│   │   │       │   ├── HomeController.java
-│   │   │       │   ├── OrderController.java
-│   │   │       │   ├── ProductController.java
-│   │   │       │   ├── UserController.java
-│   │   │       │   └── ...
-│   │   │       ├── dto/                              # DTO（データ転送オブジェクト）
-│   │   │       │   ├── request/                      # リクエスト用DTO
-│   │   │       │   │   ├── LoginRequest.java         # ログインリクエスト
-│   │   │       │   │   ├── RegisterRequest.java      # 会員登録リクエスト
-│   │   │       │   │   ├── CartAddRequest.java       # カート追加リクエスト
-│   │   │       │   │   └── ...
-│   │   │       ├── entity/                           # エンティティ（永続化層）
-│   │   │       │   ├── CartItem.java
-│   │   │       │   ├── Order.java
-│   │   │       │   ├── OrderItem.java
-│   │   │       │   ├── Product.java
-│   │   │       │   ├── User.java
-│   │   │       │   ├── UserAddress.java
-│   │   │       │   ├── UserPaymentSetting.java
-│   │   │       │   └── ...
-│   │   │       ├── mapper/                           # MyBatisマッパー
-│   │   │       │   ├── CartItemMapper.java
-│   │   │       │   ├── OrderMapper.java
-│   │   │       │   ├── ProductMapper.java
-│   │   │       │   └── ...
-│   │   │       ├── service/                          # サービスインターフェース
-│   │   │       │   ├── CartService.java
-│   │   │       │   ├── OrderService.java
-│   │   │       │   ├── ProductService.java
-│   │   │       │   └── ...
-│   │   │       └── service/impl/                     # サービス実装
-│   │   │           ├── CartServiceImpl.java
-│   │   │           ├── OrderServiceImpl.java
-│   │   │           └── ...
-│   │   ├── resources/
-│   │   │   ├── db/
-│   │   │   │   └── aisato_EC.sql                     # 初期データSQL
-│   │   │   ├── mapper/                               # MyBatis XMLマッパー
-│   │   │   │   ├── CartItemMapper.xml
-│   │   │   │   ├── OrderMapper.xml
-│   │   │   │   └── ...
-│   │   │   ├── static/
-│   │   │   │   ├── css/                              # スタイルシート
-│   │   │   │   │   ├── style.css
-│   │   │   │   │   ├── cart.css
-│   │   │   │   │   ├── order.css
-│   │   │   │   │   └── product-detail.css
-│   │   │   │   ├── images/                           # 画像リソース
-│   │   │   │   │   ├── default.jpg
-│   │   │   │   │   ├── smartphone.jpg
-│   │   │   │   │   └── ...
-│   │   │   │   └── js/                               # JavaScript
-│   │   │   │       ├── cart.js
-│   │   │   │       ├── checkout.js
-│   │   │   │       ├── product-detail.js
-│   │   │   │       └── main.js
-│   │   │   └── templates/                            # Thymeleafテンプレート
-│   │   │       ├── cart/
-│   │   │       │   └── index.html
-│   │   │       ├── order/
-│   │   │       │   ├── checkout.html
-│   │   │       │   ├── history.html
-│   │   │       │   └── success.html
-│   │   │       ├── product/
-│   │   │       │   └── detail.html
-│   │   │       ├── user/
-│   │   │       │   ├── login.html
-│   │   │       │   ├── profile.html
-│   │   │       │   └── register.html
-│   │   │       └── index.html                        # ホームページ
-│   │   └── webapp/
-│   └── test/
-│       └── java/com/aisato/ec/
-└── pom.xml                                           # Maven設定ファイル
+
 
 ## 4. データベース設定
 データベース関連の設定は src/main/resources/application.yml ファイルに記載されています：
