@@ -174,8 +174,7 @@ mybatis:
 *   **ホームページ**:ユーザー未ログイン状態 http://localhost:8080/home/
 *   **ポイント**：商品名検索、ユーザー登録、ログイン、カート画面遷移、商品詳細画面遷移、商品種別表示、アイサットLOGOクリックで更新＆ホームページ戻す
 *   **スクリーンショット**
-<img width="1920" height="967" alt="image" src="https://github.com/user-attachments/assets/33b0c1a6-0dc5-4dfc-9890-136025993534" />
-<img width="1920" height="709" alt="image" src="https://github.com/user-attachments/assets/8b708fec-72d6-48d7-84a5-6275545bd8fb" />
+<img width="1920" height="967" alt="image" src="https://github.com/user-attachments/assets/33b0c1a6-0dc5-4dfc-9890-136025993534" /><img width="1920" height="709" alt="image" src="https://github.com/user-attachments/assets/8b708fec-72d6-48d7-84a5-6275545bd8fb" />
 
 
 *   **商品詳細画面**:ユーザー未ログイン状態 http://localhost:8080/home/product/1
