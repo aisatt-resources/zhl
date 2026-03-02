@@ -205,6 +205,8 @@ mybatis:
 *   **ポイント**：メニューボタン、新し住所追加ボタン、決済カート選択、注文ボタン、アイサットLOGOクリック更新＆ホームページ戻す
 *   **スクリーンショット**
 <img width="1920" height="867" alt="image" src="https://github.com/user-attachments/assets/b2d8fc0a-a12b-4055-b6e6-15061c830da5" />
+<img width="1920" height="786" alt="image" src="https://github.com/user-attachments/assets/ee7edeb6-308a-43bf-b2e0-d37446607af8" />
+
 
 
 *   **住所登録画面**:ユーザーログイン状態 http://localhost:8080/home/user/address/add
