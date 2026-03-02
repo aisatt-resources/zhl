@@ -172,69 +172,77 @@ mybatis:
 ### プロジェクトレイアウト展示
 
 *   **ホームページ**:ユーザー未ログイン状態 http://localhost:8080/home/
-*   **ポイント**：商品名検索、ユーザー登録、ログイン、カート画面遷移、商品詳細画面遷移、商品種別表示、アイサットLOGOクリック更新＆ホームページ戻す
+*   **ポイント**：商品名検索、ユーザー登録、ログイン、カート画面遷移、商品詳細画面遷移、商品種別表示、アイサットLOGOクリックで更新＆ホームページ戻す
 *   **スクリーンショット**
 <img width="1920" height="967" alt="image" src="https://github.com/user-attachments/assets/33b0c1a6-0dc5-4dfc-9890-136025993534" />
 
 
 *   **商品詳細画面**:ユーザー未ログイン状態 http://localhost:8080/home/product/1
-*   **ポイント**：ユーザー登録、ログイン、カートボタン、商品個数ボタン、商品色とサイズボタン、アイサットLOGOクリック更新＆ホームページ戻す
+*   **ポイント**：ユーザー登録、ログイン、カートボタン、商品個数ボタン、商品色とサイズボタン、アイサットLOGOクリックで更新＆ホームページ戻す
 *   **スクリーンショット**
 <img width="1920" height="976" alt="image" src="https://github.com/user-attachments/assets/50851f5c-3211-474a-b9cc-8b1831cedbe5" />
 
 
 *   **カート画面**:ユーザー未ログイン状態 http://localhost:8080/home/cart
-*   **ポイント**：ユーザー登録、ログイン、カートボタン、商品個数ボタン、商品削除ボタン、レジ画面遷移ボタン、買い物遷移ボタン、アイサットLOGOクリック更新＆ホームページ戻す、レジ画面遷移はログインする必要がある
+*   **ポイント**：ユーザー登録、ログイン、カートボタン、商品個数ボタン、商品削除ボタン、レジ画面遷移ボタン、買い物遷移ボタン、アイサットLOGOクリックで更新＆ホームページ戻す、レジ画面遷移はログインする必要がある
 *   **スクリーンショット**
 <img width="1920" height="971" alt="image" src="https://github.com/user-attachments/assets/26008493-f598-47a9-9156-289c47a70eb2" />
 
 
 *   **ユーザーログイン画面**:ユーザー未ログイン状態 http://localhost:8080/home/login
-*   **ポイント**：ユーザー登録ボタン、ログインボタン、アイサットLOGOクリック更新＆ホームページ戻す
+*   **ポイント**：ユーザー登録ボタン、ログインボタン、アイサットLOGOクリックで更新＆ホームページ戻す
 *   **スクリーンショット**
 <img width="1920" height="974" alt="image" src="https://github.com/user-attachments/assets/04e8cc1b-d382-4f9a-892f-c3cb026da2be" />
 
 
 *   **ユーザー登録画面**:ユーザー未ログイン状態 http://localhost:8080/home/register
-*   **ポイント**：ユーザー登録ボタン、ログインボタン、アイサットLOGOクリック更新＆ホームページ戻す
+*   **ポイント**：ユーザー登録ボタン、ログインボタン、アイサットLOGOクリックで更新＆ホームページ戻す
 *   **スクリーンショット**
 <img width="1920" height="976" alt="image" src="https://github.com/user-attachments/assets/a6e27c60-e8cb-4bed-8128-5c03067f7f26" />
 
 
 *   **レジ画面**:ユーザーログイン状態 http://localhost:8080/home/order/checkout
-*   **ポイント**：メニューボタン、新し住所追加ボタン、決済カート選択、注文ボタン、アイサットLOGOクリック更新＆ホームページ戻す
+*   **ポイント**：メニューボタン、新し住所追加ボタン、決済カート選択、注文ボタン、アイサットLOGOクリックで更新＆ホームページ戻す,注文する場合は必ず住所追加する必要があります。
 *   **スクリーンショット**
 <img width="1920" height="867" alt="image" src="https://github.com/user-attachments/assets/b2d8fc0a-a12b-4055-b6e6-15061c830da5" />
 <img width="1920" height="786" alt="image" src="https://github.com/user-attachments/assets/ee7edeb6-308a-43bf-b2e0-d37446607af8" />
 
 
 *   **住所登録画面**:ユーザーログイン状態 http://localhost:8080/home/user/address/add
-*   **ポイント**：メニューボタン、登録ボタン、キャンセルボタン、アイサットLOGOクリック更新＆ホームページ戻す
+*   **ポイント**：メニューボタン、登録ボタン、キャンセルボタン、アイサットLOGOクリックで更新＆ホームページ戻す
 *   **スクリーンショット**
 <img width="1920" height="970" alt="image" src="https://github.com/user-attachments/assets/2dc68188-7390-4692-a43b-310af4c5e38b" />
 <img width="1920" height="623" alt="image" src="https://github.com/user-attachments/assets/b3351ae3-17ee-4a56-8187-fd2056977237" />
 
 
 *   **商品注文完了画面**:ユーザーログイン状態 http://localhost:8080/home/order/success
-*   **ポイント**：メニューボタン、トップページ戻るボタン、注文履歴ボタン、アイサットLOGOクリック更新＆ホームページ戻す
+*   **ポイント**：メニューボタン、トップページ戻るボタン、注文履歴ボタン、アイサットLOGOクリックで更新＆ホームページ戻す
 *   **スクリーンショット**
 <img width="1920" height="969" alt="image" src="https://github.com/user-attachments/assets/58f654c5-d00a-498a-a82f-02ecfedd69e6" />
 <img width="1920" height="417" alt="image" src="https://github.com/user-attachments/assets/8aca034d-bb77-4749-aef1-433f4b826dfe" />
 
 
 *   **注文履歴画面**:ユーザーログイン状態 http://localhost:8080/home/order/history
-*   **ポイント**：メニューボタン、アイサットLOGOクリック更新＆ホームページ戻す
+*   **ポイント**：メニューボタン、アイサットLOGOクリックで更新＆ホームページ戻す
 *   **スクリーンショット**
 <img width="1920" height="922" alt="image" src="https://github.com/user-attachments/assets/8dc09c6f-6648-4f88-8fc1-6b7aaee78b18" />
 <img width="1920" height="787" alt="image" src="https://github.com/user-attachments/assets/b700b7f4-9c0a-4ff4-a650-19006079908f" />
 
 
 *   **個人情報画面**:ユーザーログイン状態 http://localhost:8080/home/user/profile
-*   **ポイント**：メニューボタン、個人情報小新ボタン、住所追加＆削除＆デフォルト設定＆編集ボタン、注文履歴＆ショッピングカート画面遷移、アイサットLOGOクリック更新＆ホームページ戻す
+*   **ポイント**：メニューボタン、個人情報ボタン、住所追加＆削除＆デフォルト設定＆編集ボタン、注文履歴＆ショッピングカート画面遷移、アイサットLOGOクリックで更新＆ホームページ戻す
 *   **スクリーンショット**
 <img width="1920" height="883" alt="image" src="https://github.com/user-attachments/assets/0ff0c304-572c-4dcb-a71b-1678d2f93bb7" />
 <img width="1920" height="815" alt="image" src="https://github.com/user-attachments/assets/5a3984f9-0a84-43df-804f-901c995685ef" />
 <img width="1920" height="427" alt="image" src="https://github.com/user-attachments/assets/338d20a4-8e72-4aba-af5f-78171340c57d" />
+
+
+*   **メニュー**:ユーザーログイン状態 http://localhost:8080/home/user/profile
+*   **ポイント**：注文履歴、マイベージ、ログアウト
+*   **スクリーンショット**
+<img width="1920" height="317" alt="image" src="https://github.com/user-attachments/assets/bbbde84e-675d-48ee-8ee6-e07dbae393c7" />
+
+
 
 
 
