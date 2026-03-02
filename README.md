@@ -204,14 +204,16 @@ mybatis:
 *   **レジ画面**:ユーザーログイン状態 http://localhost:8080/home/order/checkout
 *   **ポイント**：メニューボタン、新し住所追加ボタン、決済カート選択、注文ボタン、アイサットLOGOクリック更新＆ホームページ戻す
 *   **スクリーンショット**
-<img width="1920" height="971" alt="image" src="https://github.com/user-attachments/assets/26008493-f598-47a9-9156-289c47a70eb2" />
+<img width="1920" height="867" alt="image" src="https://github.com/user-attachments/assets/b2d8fc0a-a12b-4055-b6e6-15061c830da5" />
 
 
 *   **住所登録画面**:ユーザーログイン状態 http://localhost:8080/home/user/address/add
 *   **ポイント**：メニューボタン、登録ボタン、キャンセルボタン、アイサットLOGOクリック更新＆ホームページ戻す
 *   **スクリーンショット**
 <img width="1920" height="970" alt="image" src="https://github.com/user-attachments/assets/2dc68188-7390-4692-a43b-310af4c5e38b" />
-<img width="1920" height="807" alt="image" src="https://github.com/user-attachments/assets/167601dd-55a0-4b14-8254-3c2f01ccf530" />
+<img width="1920" height="817" alt="image" src="https://github.com/user-attachments/assets/afda3415-c9c9-44c0-b6a8-942efcdad1b1" />
+
+
 
 
 
