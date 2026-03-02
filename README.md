@@ -180,6 +180,14 @@ mybatis:
 *   **商品詳細画面**:ユーザー未登録状態
 *   **ポイント**：ユーザー登録、ログイン、カートボタン、商品個数ボタン、商品色とサイズボタン、アイサットLOGOクリック更新＆ホームページ戻す
 *   **スクリーンショット**
-<img width="1920" height="967" alt="image" src="https://github.com/user-attachments/assets/33b0c1a6-0dc5-4dfc-9890-136025993534" />
+<img width="1920" height="976" alt="image" src="https://github.com/user-attachments/assets/50851f5c-3211-474a-b9cc-8b1831cedbe5" />
+
+
+*   **カート画面**:ユーザー未登録状態
+*   **ポイント**：ユーザー登録、ログイン、カートボタン、商品個数ボタン、商品削除ボタン、レジ画面遷移ボタン、買い物遷移ボタン、アイサットLOGOクリック更新＆ホームページ戻す
+*   **スクリーンショット**
+<img width="1920" height="971" alt="image" src="https://github.com/user-attachments/assets/26008493-f598-47a9-9156-289c47a70eb2" />
+
+
 
 
