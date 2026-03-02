@@ -243,6 +243,10 @@ mybatis:
 *   **スクリーンショット**
 <img width="1920" height="317" alt="image" src="https://github.com/user-attachments/assets/bbbde84e-675d-48ee-8ee6-e07dbae393c7" />
 
+### プロジェクトER図
+<img width="1056" height="787" alt="image" src="https://github.com/user-attachments/assets/2979428c-c6fc-4b22-a65c-8ee24024e0f7" />
+
+
 
 
 
