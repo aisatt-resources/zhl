@@ -211,7 +211,8 @@ mybatis:
 *   **ポイント**：メニューボタン、登録ボタン、キャンセルボタン、アイサットLOGOクリック更新＆ホームページ戻す
 *   **スクリーンショット**
 <img width="1920" height="970" alt="image" src="https://github.com/user-attachments/assets/2dc68188-7390-4692-a43b-310af4c5e38b" />
-<img width="1920" height="817" alt="image" src="https://github.com/user-attachments/assets/afda3415-c9c9-44c0-b6a8-942efcdad1b1" />
+<img width="1920" height="623" alt="image" src="https://github.com/user-attachments/assets/b3351ae3-17ee-4a56-8187-fd2056977237" />
+
 
 
 
