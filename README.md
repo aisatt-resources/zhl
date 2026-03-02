@@ -39,6 +39,9 @@ Java バージョン: 17
 プロジェクトは典型的な Maven および Spring Boot の構造を採用しており、主なディレクトリとファイルの説明は以下の通りです：
 <img width="993" height="607" alt="image" src="https://github.com/user-attachments/assets/b40f86a3-142a-4a4d-a046-a2a73b0f1246" />
 <img width="996" height="616" alt="image" src="https://github.com/user-attachments/assets/57247bf9-20ca-4a09-b2b1-4d9e77541280" />
+<img width="997" height="615" alt="image" src="https://github.com/user-attachments/assets/bae69eb8-ceec-4f43-9684-c5e8e01086f5" />
+<img width="995" height="414" alt="image" src="https://github.com/user-attachments/assets/8e77226e-5aed-448b-b439-ab45f942b356" />
+
 
 
 
