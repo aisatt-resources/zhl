@@ -245,6 +245,8 @@ mybatis:
 
 ### プロジェクトER図
 <img width="1056" height="787" alt="image" src="https://github.com/user-attachments/assets/2979428c-c6fc-4b22-a65c-8ee24024e0f7" />
+<img width="1052" height="795" alt="image" src="https://github.com/user-attachments/assets/966fae1a-6990-4b25-8988-777b86401857" />
+
 
 ### 最後
 今後の機能拡張および改善計画。
