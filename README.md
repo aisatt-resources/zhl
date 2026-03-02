@@ -247,7 +247,7 @@ mybatis:
 <img width="1056" height="787" alt="image" src="https://github.com/user-attachments/assets/2979428c-c6fc-4b22-a65c-8ee24024e0f7" />
 
 ### 最後
-今後の機能拡張および改善計画
+今後の機能拡張および改善計画。
 ■ 機能拡張予定
 
 * 本ECシステムでは、今後以下の機能追加を検討しています。
