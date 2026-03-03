@@ -245,6 +245,7 @@ mybatis:
 
 ### プロジェクトER図
 <img width="1056" height="787" alt="image" src="https://github.com/user-attachments/assets/2979428c-c6fc-4b22-a65c-8ee24024e0f7" />
+README用画像/ER図.png
 
 
 
